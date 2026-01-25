@@ -7,6 +7,7 @@ import TestsPage from './pages/TestsPage'
 import TestPage from './pages/TestPage'
 import RelaxPage from './pages/RelaxPage'
 import HistoryPage from './pages/HistoryPage'
+import ProgressPage from './pages/ProgressPage'
 import ChatBot from './components/ChatBot'
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/tests/:testId" element={<TestPage />} />
           <Route path="/relax" element={<RelaxPage />} />
           <Route path="/history" element={<HistoryPage />} />
+          <Route path="/progress" element={<ProgressPage />} />
         </Routes>
       </main>
 

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useTestResults } from '../hooks/useTestResults'
 import { getTestById } from '../mocks/testConfigs'
+import PdfExportButton from '../components/PdfExportButton'
 
 export default function HistoryPage() {
   const { results, deleteResult, clearResults } = useTestResults()
@@ -40,19 +41,31 @@ export default function HistoryPage() {
           </p>
         </div>
         {results.length > 0 && (
-          <button
-            onClick={() => {
-              if (confirm('Удалить всю историю результатов?')) {
-                clearResults()
-              }
-            }}
-            className="text-sm text-red-500 hover:text-red-600 flex items-center gap-1"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
-            Очистить
-          </button>
+          <div className="flex items-center gap-2">
+            <PdfExportButton results={results} />
+            <Link
+              to="/progress"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-light dark:bg-surface-dark hover:bg-primary/10 transition"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+              <span className="hidden sm:inline">График</span>
+            </Link>
+            <button
+              onClick={() => {
+                if (confirm('Удалить всю историю результатов?')) {
+                  clearResults()
+                }
+              }}
+              className="p-2 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition"
+              title="Очистить историю"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
         )}
       </div>
 
