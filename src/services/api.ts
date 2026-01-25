@@ -26,27 +26,53 @@ interface Message {
   content: string
 }
 
+export class OfflineError extends Error {
+  constructor(message: string = 'Нет подключения к интернету') {
+    super(message)
+    this.name = 'OfflineError'
+  }
+}
+
 export const chatService = {
   async send(messages: Message[]): Promise<string> {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          ...messages.slice(-10)
-        ],
-        temperature: 0.7,
-        max_tokens: 500
-      })
-    })
-
-    if (!response.ok) {
-      throw new Error('API error')
+    // Check if online
+    if (!navigator.onLine) {
+      throw new OfflineError()
     }
 
-    const data = await response.json()
-    return data.choices[0].message.content
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          messages: [
+            { role: 'system', content: SYSTEM_PROMPT },
+            ...messages.slice(-10)
+          ],
+          temperature: 0.7,
+          max_tokens: 500
+        })
+      })
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}))
+        if (data.error) {
+          throw new OfflineError(data.message)
+        }
+        throw new Error('API error')
+      }
+
+      const data = await response.json()
+      return data.choices[0].message.content
+    } catch (error) {
+      if (error instanceof OfflineError) {
+        throw error
+      }
+      if (error instanceof TypeError && error.message.includes('fetch')) {
+        throw new OfflineError()
+      }
+      throw error
+    }
   }
 }

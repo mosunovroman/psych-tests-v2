@@ -9,6 +9,7 @@ import RelaxPage from './pages/RelaxPage'
 import HistoryPage from './pages/HistoryPage'
 import ProgressPage from './pages/ProgressPage'
 import ChatBot from './components/ChatBot'
+import InstallPrompt from './components/InstallPrompt'
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -39,6 +40,7 @@ function App() {
 
       <Footer />
       <ChatBot />
+      <InstallPrompt />
     </div>
   )
 }

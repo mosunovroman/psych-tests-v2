@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react'
-import { chatService } from '../services/api'
+import { chatService, OfflineError } from '../services/api'
 
 interface Message {
   role: 'user' | 'assistant'
   content: string
+  isOffline?: boolean
 }
 
 const INITIAL_MESSAGE: Message = {
   role: 'assistant',
   content: 'Здравствуйте! Я помогу определить, какие тесты вам подойдут. Расскажите, что вас беспокоит в последнее время?'
 }
+
+const OFFLINE_MESSAGE = '📵 Нет подключения к интернету. Чат-бот недоступен в офлайн-режиме, но вы можете проходить тесты и смотреть историю результатов.'
 
 export function useChat() {
   const [messages, setMessages] = useState<Message[]>(() => {
@@ -26,6 +29,20 @@ export function useChat() {
   })
 
   const [isLoading, setIsLoading] = useState(false)
+  const [isOnline, setIsOnline] = useState(navigator.onLine)
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true)
+    const handleOffline = () => setIsOnline(false)
+
+    window.addEventListener('online', handleOnline)
+    window.addEventListener('offline', handleOffline)
+
+    return () => {
+      window.removeEventListener('online', handleOnline)
+      window.removeEventListener('offline', handleOffline)
+    }
+  }, [])
 
   useEffect(() => {
     try {
@@ -45,9 +62,18 @@ export function useChat() {
       const assistantMessage: Message = { role: 'assistant', content: response }
       setMessages(prev => [...prev, assistantMessage])
     } catch (error) {
+      let errorContent = 'Извините, произошла ошибка. Попробуйте позже.'
+      let isOffline = false
+
+      if (error instanceof OfflineError) {
+        errorContent = OFFLINE_MESSAGE
+        isOffline = true
+      }
+
       const errorMessage: Message = {
         role: 'assistant',
-        content: 'Извините, произошла ошибка. Попробуйте позже.'
+        content: errorContent,
+        isOffline
       }
       setMessages(prev => [...prev, errorMessage])
     } finally {
@@ -60,5 +86,5 @@ export function useChat() {
     localStorage.removeItem('chatHistory')
   }
 
-  return { messages, sendMessage, isLoading, clearHistory }
+  return { messages, sendMessage, isLoading, clearHistory, isOnline }
 }
