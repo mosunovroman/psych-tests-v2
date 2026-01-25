@@ -47,6 +47,7 @@ class SyncService {
   }
 
   async syncToCloud(userId: string): Promise<{ success: boolean; error?: string }> {
+    if (!supabase) return { success: false, error: 'Supabase not configured' }
     if (this.syncing) return { success: false, error: 'Sync in progress' }
 
     this.syncing = true
@@ -93,6 +94,8 @@ class SyncService {
   }
 
   async syncFromCloud(userId: string): Promise<TestResult[]> {
+    if (!supabase) return this.getLocalResults()
+
     try {
       const { data, error } = await supabase
         .from('test_results')
@@ -148,6 +151,8 @@ class SyncService {
   }
 
   async migrateLocalData(userId: string): Promise<void> {
+    if (!supabase) return
+
     const localResults = await this.getLocalResults()
 
     if (localResults.length === 0) return

@@ -8,7 +8,7 @@ interface HeaderProps {
 }
 
 export default function Header({ darkMode, setDarkMode }: HeaderProps) {
-  const { user, signOut } = useAuth()
+  const { user, signOut, isConfigured } = useAuth()
   const navigate = useNavigate()
   const [showMenu, setShowMenu] = useState(false)
 
@@ -57,55 +57,57 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
               )}
             </button>
 
-            {user ? (
-              <div className="relative">
-                <button
-                  onClick={() => setShowMenu(!showMenu)}
-                  className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition flex items-center gap-2"
-                >
-                  <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">
-                    {user.email?.charAt(0).toUpperCase()}
-                  </div>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-
-                {showMenu && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-2 z-50">
-                    <div className="px-4 py-2 text-sm text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700">
-                      {user.email}
+            {isConfigured && (
+              user ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setShowMenu(!showMenu)}
+                    className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition flex items-center gap-2"
+                  >
+                    <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">
+                      {user.email?.charAt(0).toUpperCase()}
                     </div>
-                    <Link
-                      to="/history"
-                      onClick={() => setShowMenu(false)}
-                      className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      История тестов
-                    </Link>
-                    <Link
-                      to="/progress"
-                      onClick={() => setShowMenu(false)}
-                      className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      Мой прогресс
-                    </Link>
-                    <button
-                      onClick={handleSignOut}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      Выйти
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Link
-                to="/auth"
-                className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition text-sm font-medium"
-              >
-                Войти
-              </Link>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  {showMenu && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-2 z-50">
+                      <div className="px-4 py-2 text-sm text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700">
+                        {user.email}
+                      </div>
+                      <Link
+                        to="/history"
+                        onClick={() => setShowMenu(false)}
+                        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      >
+                        История тестов
+                      </Link>
+                      <Link
+                        to="/progress"
+                        onClick={() => setShowMenu(false)}
+                        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      >
+                        Мой прогресс
+                      </Link>
+                      <button
+                        onClick={handleSignOut}
+                        className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      >
+                        Выйти
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  to="/auth"
+                  className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition text-sm font-medium"
+                >
+                  Войти
+                </Link>
+              )
             )}
           </div>
         </div>
