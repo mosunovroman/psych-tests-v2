@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import WellnessIllustration from '../components/illustrations/WellnessIllustration'
 import BrainIllustration from '../components/illustrations/BrainIllustration'
@@ -23,20 +23,12 @@ const psychologyFacts = [
   { icon: '🌅', fact: 'Утренний свет помогает установить циркадные ритмы и улучшает качество сна ночью' }
 ]
 
-function getRandomFacts(count: number): typeof psychologyFacts {
-  return [...psychologyFacts].sort(() => Math.random() - 0.5).slice(0, count)
-}
+// Get random facts - changes on each page load
+const getRandomFacts = () => [...psychologyFacts].sort(() => Math.random() - 0.5).slice(0, 3)
 
 export default function LandingPage() {
-  const [facts, setFacts] = useState(() => getRandomFacts(3))
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFacts(getRandomFacts(3))
-    }, 15000) // Rotate every 15 seconds
-
-    return () => clearInterval(interval)
-  }, [])
+  // Facts are randomized once on component mount (page load)
+  const [facts] = useState(getRandomFacts)
 
   return (
     <div className="animate-fade-in">
