@@ -26,61 +26,66 @@ function translateSource(source: string): string {
   return SOURCE_TRANSLATIONS[source] || source
 }
 
+async function translateSingleItem(title: string, description: string): Promise<{title: string, description: string}> {
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'llama-3.3-70b-versatile',
+      messages: [
+        {
+          role: 'system',
+          content: 'Переведи на русский язык. Отвечай ТОЛЬКО JSON объектом с полями title и description. Без markdown, без пояснений.'
+        },
+        {
+          role: 'user',
+          content: JSON.stringify({ title, description })
+        }
+      ],
+      temperature: 0.2,
+      max_tokens: 500
+    })
+  })
+
+  if (!response.ok) throw new Error('API error')
+
+  const data = await response.json()
+  let text = data.choices[0].message.content.trim()
+
+  // Remove markdown
+  if (text.startsWith('```')) {
+    text = text.replace(/```json?\n?/g, '').replace(/```/g, '').trim()
+  }
+
+  return JSON.parse(text)
+}
+
 async function translateToRussian(newsItems: NewsItem[]): Promise<NewsItem[]> {
   if (newsItems.length === 0) return newsItems
 
-  try {
-    const textsToTranslate = newsItems.map(item => ({
-      title: item.title,
-      description: item.description
-    }))
+  const translatedItems: NewsItem[] = []
 
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
-        messages: [
-          {
-            role: 'system',
-            content: 'Ты переводчик. Переводи тексты на русский язык. Отвечай ТОЛЬКО валидным JSON массивом без markdown. Сохраняй научную терминологию.'
-          },
-          {
-            role: 'user',
-            content: `Переведи на русский. Верни JSON массив объектов с полями title и description:\n${JSON.stringify(textsToTranslate)}`
-          }
-        ],
-        temperature: 0.3,
-        max_tokens: 2000
+  // Translate items one by one for better reliability
+  for (const item of newsItems) {
+    try {
+      const translated = await translateSingleItem(item.title, item.description)
+      translatedItems.push({
+        ...item,
+        title: translated.title || item.title,
+        description: translated.description || item.description,
+        source: translateSource(item.source)
       })
-    })
-
-    if (!response.ok) throw new Error('Translation API error')
-
-    const data = await response.json()
-    let translatedText = data.choices[0].message.content.trim()
-
-    // Remove markdown code blocks if present
-    if (translatedText.startsWith('```')) {
-      translatedText = translatedText.replace(/```json?\n?/g, '').replace(/```/g, '').trim()
+    } catch (error) {
+      console.error('Translation error for item:', item.title, error)
+      // Keep original with translated source
+      translatedItems.push({
+        ...item,
+        source: translateSource(item.source)
+      })
     }
-
-    const translated = JSON.parse(translatedText)
-
-    return newsItems.map((item, index) => ({
-      ...item,
-      title: translated[index]?.title || item.title,
-      description: translated[index]?.description || item.description,
-      source: translateSource(item.source)
-    }))
-  } catch (error) {
-    console.error('Translation error:', error)
-    // At least translate source names if API translation fails
-    return newsItems.map(item => ({
-      ...item,
-      source: translateSource(item.source)
-    }))
   }
+
+  return translatedItems
 }
 
 // Curated psychology news sources (RSS feeds parsed via public proxy)
@@ -236,6 +241,10 @@ export async function fetchPsychologyNews(): Promise<NewsItem[]> {
   } catch {
     return FALLBACK_NEWS
   }
+}
+
+export function clearNewsCache(): void {
+  localStorage.removeItem(CACHE_KEY)
 }
 
 export function formatNewsDate(dateStr: string): string {
