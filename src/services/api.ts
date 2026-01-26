@@ -1,4 +1,4 @@
-const API_URL = 'https://patient-lab-742e.rskiff-defi.workers.dev'
+const API_URL = import.meta.env.VITE_API_URL || 'https://patient-lab-742e.rskiff-defi.workers.dev'
 
 const SYSTEM_PROMPT = `Ты — психологический помощник на сайте с тестами и инструментами КПТ. Твоя задача — провести первоначальную диагностику и порекомендовать подходящие тесты.
 

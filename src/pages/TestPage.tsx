@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { getTestById } from '../mocks/testConfigs'
 import { getTestQuestions } from '../mocks/testQuestions'
 import { useTestResults } from '../hooks/useTestResults'
+import { getRecommendationsForTest } from '../mocks/recommendations'
 
 export default function TestPage() {
   const { testId } = useParams()
@@ -131,6 +132,28 @@ export default function TestPage() {
             </div>
           </div>
 
+          {/* Recommendations */}
+          {(() => {
+            const recs = getRecommendationsForTest(test.id, interpretation.level)
+            if (recs.length === 0) return null
+            return (
+              <div className="mb-6">
+                <h3 className="font-bold text-lg mb-4">Рекомендации</h3>
+                <div className="space-y-3">
+                  {recs.map((rec, i) => (
+                    <div key={i} className="flex gap-3 p-3 bg-surface-light dark:bg-surface-dark rounded-lg">
+                      <span className="text-2xl">{rec.icon}</span>
+                      <div>
+                        <h4 className="font-medium">{rec.title}</h4>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{rec.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })()}
+
           <div className="flex gap-4 mb-4">
             <button onClick={handleRetake} className="btn-secondary flex-1">
               Пройти заново
@@ -140,12 +163,14 @@ export default function TestPage() {
             </Link>
           </div>
 
-          <Link
-            to="/history"
-            className="block text-center text-primary hover:underline text-sm"
-          >
-            Посмотреть историю результатов
-          </Link>
+          <div className="flex gap-4 text-sm justify-center">
+            <Link to="/history" className="text-primary hover:underline">
+              История результатов
+            </Link>
+            <Link to="/relax" className="text-primary hover:underline">
+              Релаксация
+            </Link>
+          </div>
 
           <p className="text-xs text-gray-400 mt-6 text-center">
             Этот тест не является медицинским диагнозом. При серьёзных симптомах обратитесь к специалисту.

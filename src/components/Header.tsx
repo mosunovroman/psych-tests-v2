@@ -37,6 +37,7 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
           <nav className="hidden md:flex items-center gap-4">
             <Link to="/tests" className="hover:opacity-80 transition">Тесты</Link>
             <Link to="/relax" className="hover:opacity-80 transition">Релаксация</Link>
+            <Link to="/mood" className="hover:opacity-80 transition">Дневник</Link>
             <Link to="/progress" className="hover:opacity-80 transition">Прогресс</Link>
           </nav>
 
@@ -78,11 +79,25 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
                         {user.email}
                       </div>
                       <Link
+                        to="/profile"
+                        onClick={() => setShowMenu(false)}
+                        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      >
+                        Мой профиль
+                      </Link>
+                      <Link
                         to="/history"
                         onClick={() => setShowMenu(false)}
                         className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       >
                         История тестов
+                      </Link>
+                      <Link
+                        to="/mood"
+                        onClick={() => setShowMenu(false)}
+                        className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      >
+                        Дневник настроения
                       </Link>
                       <Link
                         to="/progress"

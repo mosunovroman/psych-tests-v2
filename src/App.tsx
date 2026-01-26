@@ -6,11 +6,14 @@ import LandingPage from './pages/LandingPage'
 import TestsPage from './pages/TestsPage'
 import TestPage from './pages/TestPage'
 import RelaxPage from './pages/RelaxPage'
+import MoodPage from './pages/MoodPage'
 import HistoryPage from './pages/HistoryPage'
 import ProgressPage from './pages/ProgressPage'
 import AuthPage from './pages/AuthPage'
+import ProfilePage from './pages/ProfilePage'
 import ChatBot from './components/ChatBot'
 import InstallPrompt from './components/InstallPrompt'
+import ErrorBoundary from './components/ErrorBoundary'
 import { AuthProvider } from './contexts/AuthContext'
 
 function App() {
@@ -31,19 +34,25 @@ function App() {
         <Header darkMode={darkMode} setDarkMode={setDarkMode} />
 
         <main className="flex-1 container mx-auto px-4 py-6 max-w-4xl">
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/tests" element={<TestsPage />} />
-            <Route path="/tests/:testId" element={<TestPage />} />
-            <Route path="/relax" element={<RelaxPage />} />
-            <Route path="/history" element={<HistoryPage />} />
-            <Route path="/progress" element={<ProgressPage />} />
-            <Route path="/auth" element={<AuthPage />} />
-          </Routes>
+          <ErrorBoundary>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/tests" element={<TestsPage />} />
+              <Route path="/tests/:testId" element={<TestPage />} />
+              <Route path="/relax" element={<RelaxPage />} />
+              <Route path="/mood" element={<MoodPage />} />
+              <Route path="/history" element={<HistoryPage />} />
+              <Route path="/progress" element={<ProgressPage />} />
+              <Route path="/auth" element={<AuthPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+            </Routes>
+          </ErrorBoundary>
         </main>
 
         <Footer />
-        <ChatBot />
+        <ErrorBoundary fallback={null}>
+          <ChatBot />
+        </ErrorBoundary>
         <InstallPrompt />
       </div>
     </AuthProvider>
