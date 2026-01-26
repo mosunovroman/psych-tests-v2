@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useMoodDiary, MoodEntry } from '../hooks/useMoodDiary'
+import { useMoodDiary } from '../hooks/useMoodDiary'
 
 const moodEmojis = ['😢', '😔', '😐', '🙂', '😊']
 const moodLabels = ['Очень плохо', 'Плохо', 'Нормально', 'Хорошо', 'Отлично']
