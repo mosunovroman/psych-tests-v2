@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a6fa5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6b8cce;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.15" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.05" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+
+  <!-- Decorative circles -->
+  <circle cx="100" cy="100" r="200" fill="rgba(255,255,255,0.05)"/>
+  <circle cx="1100" cy="530" r="250" fill="rgba(255,255,255,0.05)"/>
+  <circle cx="900" cy="100" r="150" fill="rgba(255,255,255,0.03)"/>
+
+  <!-- Main content card -->
+  <rect x="80" y="150" width="1040" height="330" rx="20" fill="url(#cardGradient)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+
+  <!-- Psi symbol -->
+  <text x="180" y="350" font-family="Georgia, serif" font-size="120" fill="white" opacity="0.9">&#936;</text>
+
+  <!-- Main title -->
+  <text x="320" y="280" font-family="Arial, sans-serif" font-size="56" font-weight="bold" fill="white">Тело и Разум</text>
+
+  <!-- Subtitle -->
+  <text x="320" y="350" font-family="Arial, sans-serif" font-size="28" fill="rgba(255,255,255,0.9)">Питание, психология, практики самопомощи</text>
+
+  <!-- Features -->
+  <text x="320" y="420" font-family="Arial, sans-serif" font-size="22" fill="rgba(255,255,255,0.8)">&#10003; PHQ-9  &#10003; GAD-7  &#10003; IQ  &#10003; MBTI  &#10003; Big Five  &#10003; &#1056;&#1086;&#1088;&#1096;&#1072;&#1093;</text>
+
+  <!-- Bottom text -->
+  <text x="600" y="560" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.7)" text-anchor="middle">&#1052;&#1075;&#1085;&#1086;&#1074;&#1077;&#1085;&#1085;&#1099;&#1081; &#1088;&#1077;&#1079;&#1091;&#1083;&#1100;&#1090;&#1072;&#1090; &#1089; AI-&#1072;&#1085;&#1072;&#1083;&#1080;&#1079;&#1086;&#1084; &#8226; &#1050;&#1086;&#1085;&#1089;&#1091;&#1083;&#1100;&#1090;&#1072;&#1094;&#1080;&#1103; &#1087;&#1089;&#1080;&#1093;&#1086;&#1083;&#1086;&#1075;&#1072;</text>
+
+  <!-- URL -->
+  <text x="600" y="600" font-family="Arial, sans-serif" font-size="20" fill="rgba(255,255,255,0.5)" text-anchor="middle">teloirazum.ru</text>
+</svg>

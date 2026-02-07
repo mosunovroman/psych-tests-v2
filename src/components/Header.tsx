@@ -26,18 +26,24 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3">
             <div className="w-12 h-12 bg-white/15 backdrop-blur rounded-full flex items-center justify-center border-2 border-white/30">
-              <span className="text-2xl font-serif font-bold">Ψ</span>
+              <span className="text-2xl">✨</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold">Mind Pro</h1>
-              <p className="text-sm opacity-90">Психологические тесты</p>
+              <h1 className="text-xl font-bold">Тело и Разум</h1>
+              <p className="text-sm opacity-90">Платформа благополучия</p>
             </div>
           </Link>
 
           <nav className="hidden md:flex items-center gap-4">
-            <Link to="/tests" className="hover:opacity-80 transition">Тесты</Link>
-            <Link to="/relax" className="hover:opacity-80 transition">Релаксация</Link>
-            <Link to="/mood" className="hover:opacity-80 transition">Дневник</Link>
+            <Link to="/nutrition" className="hover:opacity-80 transition flex items-center gap-1">
+              <span className="text-sm">🥗</span> Тело
+            </Link>
+            <Link to="/tests" className="hover:opacity-80 transition flex items-center gap-1">
+              <span className="text-sm">🧠</span> Разум
+            </Link>
+            <Link to="/relax" className="hover:opacity-80 transition flex items-center gap-1">
+              <span className="text-sm">🌟</span> Практики
+            </Link>
             <Link to="/progress" className="hover:opacity-80 transition">Прогресс</Link>
           </nav>
 
@@ -64,6 +70,8 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
                   <button
                     onClick={() => setShowMenu(!showMenu)}
                     className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition flex items-center gap-2"
+                    aria-label="Меню пользователя"
+                    aria-expanded={showMenu}
                   >
                     <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">
                       {user.email?.charAt(0).toUpperCase()}

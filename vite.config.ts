@@ -10,9 +10,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'pwa-192x192.svg'],
       manifest: {
-        name: 'Психологические тесты',
-        short_name: 'PsychTests',
-        description: 'Психологические тесты и инструменты КПТ',
+        name: 'Тело и Разум — Платформа благополучия',
+        short_name: 'Тело и Разум',
+        description: 'Тело, разум, практики — всё для качества жизни',
         theme_color: '#4a6fa5',
         background_color: '#ffffff',
         display: 'standalone',
@@ -36,6 +36,9 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        cleanupOutdatedCaches: true,
+        skipWaiting: true,
+        clientsClaim: true,
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/patient-lab-742e\.rskiff-defi\.workers\.dev\/.*/i,
@@ -56,6 +59,6 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: false // Disabled in production for security
   }
 })

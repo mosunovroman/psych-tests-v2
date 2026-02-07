@@ -23,3 +23,9 @@ npm-debug.log*
 
 # TypeScript
 *.tsbuildinfo
+
+# API credentials
+api/config.php
+
+# React Native subproject
+teloirazum-app/

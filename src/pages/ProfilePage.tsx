@@ -4,11 +4,15 @@ import { useAuth } from '../contexts/AuthContext'
 import { useTestResults } from '../hooks/useTestResults'
 import { useMoodDiary } from '../hooks/useMoodDiary'
 import { syncService } from '../services/syncService'
+import { useAchievements } from '../hooks/useAchievements'
+import StreakCounter from '../components/StreakCounter'
+import BadgeList from '../components/BadgeList'
 
 export default function ProfilePage() {
   const { user, signOut, isConfigured } = useAuth()
   const { results, clearResults } = useTestResults()
   const { entries, clearAllEntries } = useMoodDiary()
+  const { stats: achievementStats, badges, loading: achievementsLoading } = useAchievements()
   const navigate = useNavigate()
 
   const [syncing, setSyncing] = useState(false)
@@ -128,6 +132,45 @@ export default function ProfilePage() {
               {new Date(stats.lastTest.date).toLocaleDateString('ru-RU')}
             </div>
           </div>
+        )}
+      </div>
+
+      {/* Achievements Section */}
+      <div className="card mb-6">
+        <h2 className="font-bold text-lg mb-4">Достижения</h2>
+
+        {achievementsLoading ? (
+          <div className="text-center py-4 text-gray-500">Загрузка...</div>
+        ) : (
+          <>
+            {/* Streak */}
+            {achievementStats && (
+              <div className="mb-6">
+                <StreakCounter
+                  current={achievementStats.streak.current}
+                  longest={achievementStats.streak.longest}
+                />
+              </div>
+            )}
+
+            {/* Summary stats */}
+            {achievementStats && (
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="text-center p-4 bg-surface-light dark:bg-surface-dark rounded-lg">
+                  <div className="text-3xl font-bold text-primary">{achievementStats.testsCompleted}</div>
+                  <div className="text-sm text-gray-500">Всего тестов</div>
+                </div>
+                <div className="text-center p-4 bg-surface-light dark:bg-surface-dark rounded-lg">
+                  <div className="text-3xl font-bold text-primary">{achievementStats.badgesEarned}</div>
+                  <div className="text-sm text-gray-500">Значков получено</div>
+                </div>
+              </div>
+            )}
+
+            {/* Badges */}
+            <h3 className="font-semibold mb-3">Ваши значки</h3>
+            <BadgeList badges={badges} showAll={true} />
+          </>
         )}
       </div>
 

@@ -1,0 +1,43 @@
+# Robots.txt for teloirazum.ru
+# Psychological tests website
+
+User-agent: *
+Allow: /
+
+# Allow all search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Mail.RU_Bot
+Allow: /
+
+# Sitemap location
+Sitemap: https://teloirazum.ru/sitemap.xml
+
+# Crawl-delay for politeness (optional)
+Crawl-delay: 1
+
+# Disallow API endpoints
+Disallow: /api/
+
+# Allow all test pages
+Allow: /tests/
+Allow: /tests
+Allow: /history
+Allow: /relax
+
+# Allow assets
+Allow: /assets/
+Allow: /*.js
+Allow: /*.css
+Allow: /*.svg
+Allow: /*.png
+
+# Host directive for Yandex
+Host: https://teloirazum.ru

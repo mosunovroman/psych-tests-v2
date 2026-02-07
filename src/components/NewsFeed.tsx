@@ -45,7 +45,7 @@ export default function NewsFeed() {
       <div className="text-center py-8 text-gray-500">
         <p>Не удалось загрузить новости</p>
         <button
-          onClick={loadNews}
+          onClick={() => loadNews()}
           className="mt-2 text-primary hover:underline text-sm"
         >
           Попробовать снова
@@ -69,7 +69,8 @@ export default function NewsFeed() {
               <div className="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700">
                 <img
                   src={item.imageUrl}
-                  alt=""
+                  alt={item.title}
+                  loading="lazy"
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     (e.target as HTMLImageElement).style.display = 'none'

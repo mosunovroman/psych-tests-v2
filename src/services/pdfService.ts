@@ -83,7 +83,7 @@ export async function generatePdf({ results, includeChart, chartImageData }: Pdf
       </div>
 
       <div style="text-align: center; margin-top: 30px; color: #9ca3af; font-size: 12px;">
-        <p>Сгенерировано на mind-pro.online</p>
+        <p>Сгенерировано на teloirazum.ru</p>
       </div>
     </div>
   `
